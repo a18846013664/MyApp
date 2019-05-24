@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+
+       Copyright 2009-2016 the original author or authors.
+
+       Licensed under the Apache License, Version 2.0 (the "License");
+       you may not use this file except in compliance with the License.
+       You may obtain a copy of the License at
+
+          http://www.apache.org/licenses/LICENSE-2.0
+
+       Unless required by applicable law or agreed to in writing, software
+       distributed under the License is distributed on an "AS IS" BASIS,
+       WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+       See the License for the specific language governing permissions and
+       limitations under the License.
+
+-->
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="vo.shopper">
+    <insert id="InsertShop" parameterType="com.vo.Shop">
+       insert into shop(id,shopName,shopSimple,shopX,shopPrice,shopFile,shopSize)values (
+        #{id},#{shopName},#{shopSimple},#{shopX},#{shopPrice},#{shopFile},#{shopSize}
+        )
+    </insert>
+    <insert id="InsertFile" parameterType="com.vo.ShopSrc">
+        insert into shopsrc(id,headfile)values (
+        #{id},#{headfile}
+        )
+    </insert>
+    <insert id="InsertUserShop" parameterType="com.vo.UserShop">
+        insert into usershop(id,shopid,shopName,shopSimple,shopX,shopPrice,shopFile,shopSize)values (
+        #{id},#{shopid},#{shopName},#{shopSimple},#{shopX},#{shopPrice},#{shopFile},#{shopSize}
+        )
+    </insert>
+    <select id="UserShopServlet" parameterType="int" resultType="com.vo.UserShop">
+        select id,shopid from usershop where id=#{id}
+    </select>
+    <select id="getTotalCount" parameterType="int" resultType="int">
+        SELECT count(1) FROM usershop where id = #{id}
+    </select>
+    <select id="page" parameterType="com.vo.PageUse"  resultType="com.vo.UserShop">
+        SELECT * from usershop where id = #{id} LIMIT #{pageNow},#{pageEnd}
+    </select>
+    <select id="shopPage" parameterType="com.vo.PageUse" resultType="com.vo.UserShop">
+        select * from usershop Limit #{pageNow},#{pageEnd}
+    </select>
+    <select id="shopPageCount" resultType="int">
+        SELECT count(1) from usershop
+    </select>
+    <select id="selectShopOne" parameterType="String" resultType="com.vo.UserShop">
+        select id,shopid,shopName,shopSimple,shopX,shopPrice,shopFile,shopSize from usershop where shopid=#{shopid}
+    </select>
+    <select id="selectShopSrc" parameterType="String" resultType="com.vo.ShopSrc">
+        select id,headfile from shopsrc where id = #{id}
+    </select>
+    <insert id="insertCart" parameterType="com.vo.CartItem">
+        insert into cart(num,subTotal,userid,id,shopid,shopName,ShopSimple,shopX,shopPrice,shopFile,shopSize)values (
+        #{num},#{subTotal},#{userid},#{id},#{shopid},#{shopName},#{shopSimple},#{shopX},#{shopPrice},#{shopFile},#{shopSize}
+        )
+    </insert>
+    <select id="selectCart" parameterType="int" resultType="com.vo.C">
+        select num,subTotal,userid,id,shopid,shopName,ShopSimple,shopX,shopPrice,shopFile,shopSize from cart
+        where userid = #{userid}
+    </select>
+    <select id="selectCity" resultType="com.vo.Location">
+        select id,city from locations
+    </select>
+    <select id="selectDepartment" parameterType="int" resultType="com.vo.Department">
+        select id,name,lid from departments where lid = #{lid}
+    </select>
+    <select id="selectParten" parameterType="int" resultType="com.vo.Parten">
+        select id,name,pd from parten where pd=#{pd}
+    </select>
+    <insert id="insertOreder" parameterType="com.vo.Order">
+        insert into orders(id,userid,shopid,dress,phone,num,shopname,shopfile)values (
+        #{id},#{userid},#{shopid},#{dress},#{phone},#{num},#{shopname},#{shopfile}
+        )
+    </insert>
+    <select id="selectAa" parameterType="int" resultType="com.vo.Location">
+        select id,city from locations where id=#{id}
+    </select>
+    <select id="selectAb" parameterType="int" resultType="com.vo.Department">
+        select id,name from departments where id=#{id}
+    </select>
+    <select id="selectAc" parameterType="int" resultType="com.vo.Parten">
+        select id,name from parten where id=#{id}
+    </select>
+    <select id="selectOrder" parameterType="int" resultType="com.vo.Order">
+        select id,userid,shopid,dress,phone,num from orders where id=#{id}
+    </select>
+    <select id="orderSize" parameterType="int" resultType="int">
+         SELECT count(1) FROM orders where id = #{id}
+    </select>
+    <select id="pageOrder" parameterType="com.vo.PageUse"  resultType="com.vo.Order">
+        SELECT * from orders where id = #{id} LIMIT #{pageNow},#{pageEnd}
+    </select>
+</mapper>
